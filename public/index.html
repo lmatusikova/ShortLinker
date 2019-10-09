@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Welcome to skracovac</title>
+  <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' rel="stylesheet" type="text/css">
+  <link href="https://unpkg.com/vuetify/dist/vuetify.min.css" rel="stylesheet" type="text/css"></link>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <link href="styles.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+  <div id="app">
+    <v-app>
+
+      <v-toolbar fixed app >
+        <v-toolbar-title v-text="title"></v-toolbar-title>
+        <v-spacer></v-spacer>
+
+      </v-toolbar>
+      <main>
+        <v-content>
+          <v-container fluid class="pa-0 ma-0">
+            <page></page>
+          </v-container>
+        </v-content>
+      </main>
+
+      <v-footer fixed app>
+        <span>&copy; 2017</span>
+      </v-footer>
+    </v-app>
+  </div>
+
+  <script type="text/x-template" id="page">
+    <v-layout row wrap class="pa-0 ma-0">
+      <v-flex xs12 class="pa-0 ma-0">
+        <v-card  color="primary"  height="600">
+
+
+          <v-layout row wrap class="pa-5 ">
+            <v-flex xs8>
+              <v-text-field
+              label="Solo"
+              placeholder="URL"
+              solo
+              v-model="tf"
+              ></v-text-field>
+            </v-flex>
+            <v-flex xs4>
+              <v-btn @click="send()" color="success">Skrat</v-btn>
+            </v-flex>
+
+          </v-layout>
+
+
+        </v-card>
+      </v-flex>
+
+
+    </v-layout>
+  </script>
+
+  <script src="https://unpkg.com/vue/dist/vue.js"></script>
+  <script src="https://unpkg.com/vuetify/dist/vuetify.js"></script>
+  <script>
+  Vue.component('page', {
+    template: '#page',
+    data:  function() {
+         return  {
+      tf: '',
+    }
+    },  methods: {
+      send: function () {
+
+        let scope = this;
+          console.log(typeof scope.tf);
+        axios.post('http://localhost:3001/api/sl', {
+          url: scope.tf
+        })
+        .then(function (response) {
+          console.log(response);
+          scope.tf = response.data.shortUrl;
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+      }
+    }
+
+  })
+  new Vue({
+    el: '#app',
+    data: {
+      right: true,
+      title: 'Skracovac'
+
+    }
+  })
+  </script>
+</body>
+</html>

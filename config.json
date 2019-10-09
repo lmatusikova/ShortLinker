@@ -1,0 +1,5 @@
+{
+    "serverPort":       3001,
+    "serverDomain":     "http://localhost",
+    "mongoPath":        "mongodb://localhost/short_link"
+}
